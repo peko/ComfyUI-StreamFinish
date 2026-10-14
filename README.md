@@ -32,6 +32,24 @@ has an `IMAGE`, every frame already exists at full resolution and the memory has
 already been spent — decoding has to happen inside the node for the saving to be
 real.
 
+## Measured
+
+Wan 2.2 I2V, 272x416, scale 2x, interpolate 2x, `frames_per_chunk` 16:
+
+| input | frames | time | peak VRAM | min MemAvailable |
+|---|---|---|---|---|
+| 81-frame latent, in a real graph | 81 -> **161** | 5.5 s | 10867 MiB* | 12.1 GB |
+| **801-frame latent** | 801 -> **1601** | **39.1 s** | **4566 MiB** | 20.8 GB |
+| 801-frame mp4, via `finish_video.py` | 801 -> 1601 | 9.4 s | **89 MiB** | 27.3 GB |
+
+\* that figure is the *sampling* peak — it includes the Wan experts, not this node.
+
+The 801-frame row is the point of the project. The same job built from the
+official IMAGE-batch nodes needs **26.7 GB of system RAM at 2x** (and 107 GB at
+4x); here it ran to completion with 20.8 GB still free, and the VRAM it did use
+is the VAE decode, not the streaming. The last row is the same chain without a
+VAE in it at all, which is why its VRAM is two orders of magnitude lower.
+
 ## Requirements
 
 * NVIDIA RTX **40-series or newer** (Frame Generation); Super Resolution works
