@@ -1,0 +1,15 @@
+[project]
+name = "comfyui-streamfinish"
+description = "Decode, upscale and interpolate a video latent in one streaming pass, without ever materialising the frame batch."
+version = "0.1.0"
+license = { file = "LICENSE" }
+requires-python = ">=3.10"
+dependencies = ["nvidia-vfx>=0.2"]
+
+[project.urls]
+Repository = "https://github.com/peko/ComfyUI-StreamFinish"
+
+[tool.comfy]
+PublisherId = ""
+DisplayName = "ComfyUI-StreamFinish"
+Icon = ""
